@@ -1,0 +1,39 @@
+# general
+seed: 2020
+reproducibility: True
+
+train_batch_size: 16384
+eval_batch_size: 32768
+eval_args:
+  split: {'RS':[0.7, 0.15, 0.15]}
+  order: RO
+  group_by: user
+  mode: full
+stopping_step: 10
+
+valid_metric: NDCG@20
+
+topk: [10, 20]
+metrics: ['Recall', 'NDCG']
+metric_decimal_place: 6
+
+load_col:
+    inter: [user_id, item_id, tag]
+    user: [user_id]
+    item: [item_id]
+
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+TAG_FIELD: tag
+data_path: ./Data/
+seq_separator: ','
+
+filter_inter_by_user_or_item: False
+
+model: ExpGCN
+epochs: 500
+valid_tag: True
+eval_step: 1
+learning_rate: 0.001
+
+embedding_size: 128
