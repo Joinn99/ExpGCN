@@ -1,3 +1,8 @@
+'''
+    ExpGCN
+    author: Tianjun Wei (tjwei2-c@my.cityu.edu.hk)
+'''
+
 import torch
 import numpy as np
 import scipy.sparse as sp
@@ -10,7 +15,8 @@ from Custom.loss import MaskedBPRLoss
 from Custom.recommender import TagSampleRecommender
 
 class ExpGCN(TagSampleRecommender):
-    r"""ExpGCN is an aspect based recommendation model.
+    r"""
+    ExpGCN is a model for joint task of item recommendation and explanation ranking.
     """
     input_type = InputType.PAIRWISE
 
@@ -53,18 +59,6 @@ class ExpGCN(TagSampleRecommender):
                                      'restore_item_ia', 'restore_tag_ia']
 
     def get_norm_adj_mat(self, row_num, col_num, sp_inter):
-        r"""Get the normalized interaction matrix of users and items.
-
-        Construct the square matrix from the training data and normalize it
-        using the laplace matrix.
-
-        .. math::
-            A_{hat} = D^{-1} \times A
-
-        Returns:
-            Sparse tensor of the normalized interaction matrix.
-        """
-        # build adj matrix
         A = sp.dok_matrix((row_num + col_num, row_num + col_num), dtype=np.float32)
         inter_M = sp_inter
         if isinstance(inter_M, torch.Tensor):
@@ -73,13 +67,10 @@ class ExpGCN(TagSampleRecommender):
         data_dict = dict(zip(zip(inter_M.row, inter_M.col + row_num), inter_M.data)) #  [1] * inter_M.nnz
         data_dict.update(dict(zip(zip(inter_M_t.row + row_num, inter_M_t.col), inter_M_t.data))) #  [1] * inter_M_t.nnz
         A._update(data_dict)
-        # norm adj matrix
         sumArr = A.sum(axis=1)
-        # add epsilon to avoid divide by zero Warning
         diag = np.array(sumArr.flatten())[0] + 1e-7
         D = sp.diags(np.power(diag, -0.5))
         L = D * A * D
-        # covert norm_adj matrix to tensor
         L = sp.coo_matrix(L)
         row = L.row
         col = L.col
@@ -89,11 +80,6 @@ class ExpGCN(TagSampleRecommender):
         return SparseL
 
     def get_ego_embeddings(self, row_emb, col_emb):
-        r"""Get the embedding of users and items and combine to an embedding matrix.
-
-        Returns:
-            Tensor of the embedding matrix. Shape of [n_items+n_users, embedding_dim]
-        """
         return torch.cat([row_emb, col_emb], dim=0)
 
     def split_ego_embeddings(self, row_num, col_num, emb):
@@ -111,7 +97,6 @@ class ExpGCN(TagSampleRecommender):
         return ui_u_emb, ui_i_emb
 
     def calculate_loss(self, interaction):
-        # clear the storage variable when training
         if self.restore_user_e is not None or self.restore_item_e is not None:
             self.restore_user_e, self.restore_item_e = None, None
         if self.restore_user_ua is not None or self.restore_tag_ua is not None:
@@ -132,7 +117,6 @@ class ExpGCN(TagSampleRecommender):
         neg_tag_ia = tag_ia.gather(1, interaction[self.NEG_TAG_ID])
 
         mask = self.tag_mask(interaction[self.TAG_ID])
-        # calculate BPR Loss
         
         tag_loss = self.tag_loss(pos_tag_ua + pos_tag_ia,
                                  neg_tag_ua + neg_tag_ia,
@@ -147,10 +131,7 @@ class ExpGCN(TagSampleRecommender):
 
         mf_loss = self.mf_loss(pos_item_ui.sum(dim=-1), neg_item_ui.sum(dim=-1))
 
-        # calculate Emb Loss
         loss = mf_loss + self.tag_weight * tag_loss
-        # loss = torch.sqrt(mf_loss * tag_loss)
-
         return loss
 
     def predict(self, interaction):
@@ -174,9 +155,7 @@ class ExpGCN(TagSampleRecommender):
                                                                     self.item_embedding.weight + self.restore_item_ia,
                                                                     self.ui_adj_matrix, self.n_layers)
 
-        # get user embedding from storage variable
         u_embeddings = self.restore_user_e[user]
-        # dot with all item embedding to accelerate
         scores = torch.matmul(u_embeddings, self.restore_item_e.transpose(0, 1))
         return scores.view(-1)
 
