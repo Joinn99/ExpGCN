@@ -1,7 +1,14 @@
-'''
-    ExpGCN
-    author: Tianjun Wei (tjwei2-c@my.cityu.edu.hk)
-'''
+# -*- coding: utf-8 -*-
+# @Time   : 2022/10/24
+# @Author : Tianjun Wei
+# @Email  : tjwei2-c@my.cityu.edu.hk
+
+r"""
+ExpGCN
+################################################
+Reference:
+    T. Wei, T. W. S. Chow, J. Ma, and M. Zhao, “ExpGCN: Review-aware Graph Convolution Network for explainable recommendation,” Neural Networks, 2022.
+"""
 
 import torch
 import numpy as np

@@ -1,8 +1,10 @@
-# ExpGCN
+# ExpGCN: Review-aware Graph Convolution Network for explainable recommendation
 
-This is the official implementation of our paper under review:
+This is the official PyTorch implementation of our paper:
 
-> ExpGCN: Review-aware Graph Convolution Network for Explainable Recommendation
+> T. Wei, T. W. S. Chow, J. Ma, and M. Zhao, “ExpGCN: Review-aware Graph Convolution Network for explainable recommendation,” in *Neural Networks*, 2022. [Paper Link](https://doi.org/10.1016/j.neunet.2022.10.014) 
+
+<kbd>![CARAR](https://raw.githubusercontent.com/Joinn99/RepositoryResource/master/ExpGCN_Architechture.svg)</kbd>
 
 ----------
 
@@ -38,3 +40,26 @@ The script `run.py` is used to run the demo. Train and avaluate ExpGCN on a spec
 ```python
 python run.py --dataset DATASET_NAME
 ```
+
+## How to cite
+
+```bibtex
+@ARTICLE{Wei2022Exp,
+  author   = {Tianjun Wei and Tommy W.S. Chow and Jianghong Ma and Mingbo Zhao},
+  journal  = {Neural Networks},
+  title    = {ExpGCN: Review-aware Graph Convolution Network for explainable recommendation},
+  year     = {2022},
+  issn     = {0893-6080},
+  abstract = {Existing works in recommender system have widely explored extracting reviews as explanations beyond user-item interactions, and formulated the explanation generation as a ranking task to enhance item recommendation performance. To associate explanations with users and items, graph neural networks (GNN) are usually employed to learn node representations on the heterogeneous user-item-explanation interaction graph. However, modelling heterogeneous graph convolution poses limitations in both message passing styles and computational efficiency, resulting in sub-optimal recommendation performance. To address the limitations, we propose an Explanation-aware Graph Convolution Network (ExpGCN). In particular, the heterogeneous interaction graph is divided to subgraphs regard to the edge types in ExpGCN. By aggregating information from distinct subgraphs, ExpGCN is capable of generating node representations for explanation ranking task and item recommendation task respectively. Task-oriented graph convolution can not only reduces the complexity of heterogeneous node aggregation, but also alleviates the performance degeneration caused by the conflicts between task learning objectives, which has been neglected in current studies. Extensive experiments on four public datasets show that ExpGCN significantly outperforms state-of-the-art baselines with high efficiency, demonstrating the effectiveness of ExpGCN in explainable recommendations.},
+  doi      = {https://doi.org/10.1016/j.neunet.2022.10.014},
+  groups   = {Aspect Based},
+  keywords = {Explainable recommendation, Recommender system, Graph Neural Network, Multi-task learning, Collaborative filtering},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0893608022004087},
+}
+```
+
+## References
+
+[^1]: [RecBole Recommendation Toolbox](https://recbole.io/)
+
+[^2]: [EXTRA (EXplanaTion RAnking) Datasets](https://github.com/lileipisces/EXTRA)
