@@ -9,7 +9,7 @@ This is the official PyTorch implementation of our paper:
 ----------
 
 ## Requirements
-The model implementation ensures compatibility with the Recommendation Toolbox [RecBole](https://recbole.io/) (Github: [Recbole](https://github.com/RUCAIBox/RecBole)), and use [Numba](https://numba.pydata.org/) for high speed nagative sampling.
+The model implementation ensures compatibility with the Recommendation Toolbox [RecBole](https://recbole.io/)[^1] (Github: [Recbole](https://github.com/RUCAIBox/RecBole)), and use [Numba](https://numba.pydata.org/) for high speed nagative sampling.
 
 - Python: 3.8+
 - RecBole: 1.0.1
@@ -32,7 +32,7 @@ Include name of all items. Each row contains an item identified by `<item_id>`.
 #### <DATASET_NAME>.user
 Include name of all users. Each row contains a user identified by `<user_id>`.
 
-The above three files are placed in folder `Data/<DATASET_NAME>`. The configuration file can be created in `Params/<DATASET_NAME>.yaml`. In this repository we have provided [Amazon Movies & TV](https://github.com/lileipisces/EXTRA) (AmazonMTV) dataset as an example.
+The above three files are placed in folder `Data/<DATASET_NAME>`. The configuration file can be created in `Params/<DATASET_NAME>.yaml`. In this repository we have provided [Amazon Movies & TV](https://github.com/lileipisces/EXTRA)[^2] (AmazonMTV) dataset as an example.
 
 ## Run
 
@@ -52,7 +52,6 @@ python run.py --dataset DATASET_NAME
   issn     = {0893-6080},
   abstract = {Existing works in recommender system have widely explored extracting reviews as explanations beyond user-item interactions, and formulated the explanation generation as a ranking task to enhance item recommendation performance. To associate explanations with users and items, graph neural networks (GNN) are usually employed to learn node representations on the heterogeneous user-item-explanation interaction graph. However, modelling heterogeneous graph convolution poses limitations in both message passing styles and computational efficiency, resulting in sub-optimal recommendation performance. To address the limitations, we propose an Explanation-aware Graph Convolution Network (ExpGCN). In particular, the heterogeneous interaction graph is divided to subgraphs regard to the edge types in ExpGCN. By aggregating information from distinct subgraphs, ExpGCN is capable of generating node representations for explanation ranking task and item recommendation task respectively. Task-oriented graph convolution can not only reduces the complexity of heterogeneous node aggregation, but also alleviates the performance degeneration caused by the conflicts between task learning objectives, which has been neglected in current studies. Extensive experiments on four public datasets show that ExpGCN significantly outperforms state-of-the-art baselines with high efficiency, demonstrating the effectiveness of ExpGCN in explainable recommendations.},
   doi      = {https://doi.org/10.1016/j.neunet.2022.10.014},
-  groups   = {Aspect Based},
   keywords = {Explainable recommendation, Recommender system, Graph Neural Network, Multi-task learning, Collaborative filtering},
   url      = {https://www.sciencedirect.com/science/article/pii/S0893608022004087},
 }
